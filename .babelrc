@@ -1,0 +1,16 @@
+{
+  "presets": [
+    "env",
+    "stage-0",
+    "vue"
+  ],
+  "plugins": [
+    "transform-runtime",
+    "lodash",
+    ["component", {
+      "libraryName": "element-ui",
+      "styleLibraryName": "theme-chalk",
+      "style": true
+    }, "element-ui"]
+  ]
+}
