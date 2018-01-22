@@ -1,15 +1,17 @@
-function getActiveBody(cb) {
+function inject(payload, cb) {
   chrome.tabs.query(
     { active: true, currentWindow: true },
     (tabs) => {
       // console.log('tabs:', tabs);
       if (tabs[0]) {
-        chrome.tabs.sendMessage(tabs[0].id, { text: 'fetch_body' }, (html) => {
+        chrome.tabs.sendMessage(tabs[0].id, { message: 'inject', payload }, (res) => {
           if (cb) {
-            cb(html);
+            cb(res);
           }
         });
       }
     },
   );
 }
+
+export default inject;

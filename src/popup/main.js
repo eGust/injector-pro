@@ -8,10 +8,11 @@ import {
 } from 'element-ui';
 
 import App from './App';
+import '../storage';
 
 Vue.config.productionTip = false;
 
-Vue.prototype.$ELEMENT = { size: 'small' };
+Vue.prototype.$ELEMENT = { size: 'mini' };
 Vue.use(Button);
 Vue.use(Input);
 Vue.use(Menu);
