@@ -15,8 +15,6 @@ module.exports = {
   extends: ['plugin:vue/essential', 'airbnb-base'],
   // required to lint *.vue files
   plugins: [
-    'html',
-    'import',
     'vue',
   ],
   // check if imports actually resolve

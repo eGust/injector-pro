@@ -1,23 +1,27 @@
 <template lang="pug">
   #app
-    img(src="../assets/logo.png")
-    h1 Options
+    el-container
+      el-header
+        h1#title Injector Pro
+      el-main
+        el-collapse(v-model="activeNames")
 </template>
 
 
 <script>
+import settings from './settings';
+
 export default {
   name: 'App',
+  data: () => ({
+    activeNames: [],
+    options: settings.load(),
+  }),
 };
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus">
+#title
+  margin 0
+  line-height 55px
 </style>

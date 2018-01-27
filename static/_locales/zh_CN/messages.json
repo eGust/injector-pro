@@ -1,0 +1,8 @@
+{
+  "extension_name": {
+    "message": "注入专家"
+  },
+  "extension_description": {
+    "message": "轻松从CDN注入JS/CSS"
+  }
+}

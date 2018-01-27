@@ -9,7 +9,7 @@ const storage = {
 
   get(key) {
     const value = localStorage.getItem(key);
-    return key === undefined ? null : JSON.parse(compressor.inflateRaw(value, OPTION));
+    return value && JSON.parse(compressor.inflateRaw(value, OPTION));
   },
 
   set(key, value) {
@@ -20,8 +20,5 @@ const storage = {
     localStorage.removeItem(key);
   },
 };
-
-window.st = storage;
-window.pako = compressor;
 
 export default storage;

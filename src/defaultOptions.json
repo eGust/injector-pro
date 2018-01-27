@@ -1,0 +1,105 @@
+{
+  "groups": [
+    {
+      "id": "_all",
+      "title": "All",
+      "description": "$ + _ + axios + bootstrap",
+      "items": [
+        {
+          "title": "bootstrap",
+          "reference": "_bootstrap"
+        },
+        {
+          "title": "lodash",
+          "reference": "_lodash"
+        },
+        {
+          "title": "axios",
+          "reference": "_axios"
+        }
+      ]
+    },
+    {
+      "id": "_common",
+      "title": "Common",
+      "description": "$ + _ + axios",
+      "items": [
+        {
+          "title": "jquery",
+          "reference": "_jquery"
+        },
+        {
+          "title": "lodash",
+          "reference": "_lodash"
+        },
+        {
+          "title": "axios",
+          "reference": "_axios"
+        }
+      ]
+    },
+    {
+      "id": "_jquery",
+      "title": "jQuery",
+      "description": "v3.3.1@cdnjs.com",
+      "items": [
+        {
+          "title": "main",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+        }
+      ]
+    },
+    {
+      "id": "_lodash",
+      "title": "lodash.js",
+      "description": "v4.17.4@cdnjs.com",
+      "items": [
+        {
+          "title": "main",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"
+        }
+      ]
+    },
+    {
+      "id": "_bootstrap",
+      "title": "twitter-bootstrap",
+      "description": "v4.0.0@cdnjs.com",
+      "items": [
+        {
+          "title": "style",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css"
+        },
+        {
+          "title": "jquery",
+          "reference": "_jquery"
+        },
+        {
+          "title": "scripts",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js",
+          "wait": 1
+        }
+      ]
+    },
+    {
+      "id": "_axios",
+      "title": "axios",
+      "description": "v0.17.1@cdnjs.com",
+      "items": [
+        {
+          "title": "main",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"
+        }
+      ]
+    }
+  ],
+  "cdn_vendors": [
+    {
+      "name": "cdnjs",
+      "url": "https://cdnjs.com/",
+      "api": {
+        "base_url": "https://api.cdnjs.com/libraries",
+        "adapter": "cdnjs_adapter"
+      }
+    }
+  ]
+}
