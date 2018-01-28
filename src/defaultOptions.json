@@ -1,25 +1,6 @@
 {
   "groups": [
     {
-      "id": "_all",
-      "title": "All",
-      "description": "$ + _ + axios + bootstrap",
-      "items": [
-        {
-          "title": "bootstrap",
-          "reference": "_bootstrap"
-        },
-        {
-          "title": "lodash",
-          "reference": "_lodash"
-        },
-        {
-          "title": "axios",
-          "reference": "_axios"
-        }
-      ]
-    },
-    {
       "id": "_common",
       "title": "Common",
       "description": "$ + _ + axios",
@@ -61,6 +42,17 @@
       ]
     },
     {
+      "id": "_axios",
+      "title": "axios",
+      "description": "v0.17.1@cdnjs.com",
+      "items": [
+        {
+          "title": "main",
+          "url": "https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"
+        }
+      ]
+    },
+    {
       "id": "_bootstrap",
       "title": "twitter-bootstrap",
       "description": "v4.0.0@cdnjs.com",
@@ -77,17 +69,6 @@
           "title": "scripts",
           "url": "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js",
           "wait": 1
-        }
-      ]
-    },
-    {
-      "id": "_axios",
-      "title": "axios",
-      "description": "v0.17.1@cdnjs.com",
-      "items": [
-        {
-          "title": "main",
-          "url": "https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"
         }
       ]
     }

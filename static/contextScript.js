@@ -13,7 +13,7 @@
 
     log(msg) {
       this.logs.push(msg);
-      console.log(msg);
+      console.info(msg);
     }
 
     loadElement({ element, attributes }, asyncLoad) {

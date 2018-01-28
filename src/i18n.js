@@ -7,10 +7,14 @@ export const tr = process.env.NODE_ENV === 'production' ?
   })()
 ;
 
-export function tf(msg, args) {
-  let text = tr(msg);
+export function fmt(s, args) {
+  let text = s;
   Object.keys().forEach((key) => {
-    text = text.replace(/\$${key}/i, `${args[key]}`);
+    text = text.replace(new RegExp(`$${key}`, 'img'), `${args[key]}`);
   });
   return text;
+}
+
+export function tf(msg, args) {
+  return fmt(tr(msg), args);
 }
