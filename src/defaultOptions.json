@@ -3,7 +3,7 @@
     {
       "id": "_common",
       "title": "Common",
-      "description": "$ + _ + axios",
+      "description": "jQuery + lodash + axios",
       "items": [
         {
           "title": "jquery",
