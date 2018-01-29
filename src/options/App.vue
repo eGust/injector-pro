@@ -4,11 +4,11 @@
       el-header
         el-row
           el-col(:span="12")
-            h1#title Injector Pro
+            h1#title {{ msgExtensionName }} v{{ msgVersion }}
           el-col.button-groups(:span="12" v-if="!isEditing")
             el-button-group(v-if="isChanged")
-              el-button(type="success" plain @click="save") Save
-              el-button(type="warning" plain @click="reload") Discard
+              el-button(type="success" plain @click="save") {{ msgButtonSave }}
+              el-button(type="warning" plain @click="reload") {{ msgButtonDiscard }}
       el-main
         el-collapse(v-model="openPanels")
           el-collapse-item(
@@ -23,23 +23,40 @@
                   el-button-group
                     el-button(
                       type="success"
+                      icon="el-icon-check"
                       :disabled="!editingChanged"
+                      :title="msgButtonOk"
                       @click="finishEditGroup(true)"
-                    ) OK
-                    el-button(type="warning" @click="finishEditGroup(false)") Cancel
+                    )
+                    el-button(
+                      type="warning"
+                      icon="el-icon-close"
+                      :title="msgButtonCancel"
+                      @click="finishEditGroup(false)"
+                    )
                 el-col.text-center(:xs="5" :sm="6" :lg="4" :title="group.title")
-                  h5 Title
+                  h5 {{ msgLabelTitle }}
                   el-input(v-model="editingGroup.title")
                 el-col.text-center(:xs="12" :sm="13" :lg="17" :title="group.description")
-                  h5 Description
+                  h5 {{ msgLabelDescription }}
                   el-input(v-model="editingGroup.description")
                 el-col.text-center(:xs="7" :sm="5" :lg="3")
-                  h5 Hide
+                  h5 {{ msgLabelHide }}
                   el-switch(v-model="editingGroup.hide")
-              el-row.text-center.item(v-for="item in editingGroup.items" :key="item.id")
+              el-row.text-center.group-item(v-for="(item, i) in editingGroup.items" :key="i")
                 el-col(:xs="12" :sm="7" :lg="7" :title="item.title")
-                  h5 Title
-                  el-input(v-model="item.title")
+                  h5
+                    i.drag-handle.el-icon-rank
+                    | {{ msgLabelTitle }}
+                  el-input(
+                    v-if="item.type === 'url'"
+                    v-model="item.title"
+                  )
+                  el-input(
+                    v-else
+                    disabled
+                    :value="item.reference ? dict[item.reference].title : ''"
+                  )
                 el-col(:xs="8" :sm="4" :lg="3" :title="item.type")
                   h5 Type
                   el-select(v-model="item.type")
@@ -50,11 +67,15 @@
                       :label="opt.label"
                     )
                 el-col(:xs="4" :sm="3" :lg="2")
-                  h5 Wait
+                  h5 {{ msgLabelWait }}
                   el-switch(v-model="item.wait")
                 el-col(:xs="20" :sm="7" :lg="10")
-                  h5 Target
-                  el-input(v-model="item.url" v-if="item.type === 'url'" placeholder="https://")
+                  h5 {{ msgLabelTarget }}
+                  el-input(
+                    v-if="item.type === 'url'"
+                    v-model="item.url"
+                    placeholder="https://"
+                  )
                   el-select(v-model="item.reference" v-else)
                     el-option(
                       v-for="opt in availableReferences"
@@ -65,14 +86,16 @@
                 el-col(:xs="4" :sm="3" :lg="2")
                   el-button.remove(
                     type="danger"
-                    icon="el-icon-delete"
+                    icon="el-icon-error"
+                    :title="msgButtonRemove"
                     @click="removeItem(item)"
                     plain
                   )
               br
               el-row
                 el-col
-                  el-button(type="primary" plain icon="el-icon-plus" @click="addItem") Add Item
+                  el-button(type="primary" plain icon="el-icon-plus" @click="addItem")
+                    | {{ msgButtonAddItem }}
             .group-wrap(v-else)
               el-row.group
                 el-col.text-center(:xs="5" :sm="6" :lg="4" :title="group.title")
@@ -86,16 +109,18 @@
                     el-button(
                       type="primary"
                       @click="startEditGroup(group.id)"
-                      icon="el-icon-edit"
+                      :title="msgButtonEdit"
+                      icon="el-icon-edit-outline"
                     )
                     el-button(
                       type="danger"
                       @click="removeGroup(group.id)"
                       icon="el-icon-delete"
+                      :title="msgButtonRemove"
                       :disabled="!group.removable"
                     )
               el-row.item(v-for="item in group.items" :key="item.id")
-                el-col(:xs="16" :sm="8" :lg="8" :title="item.title")
+                el-col.used(:xs="16" :sm="8" :lg="8" :title="item.title")
                   | {{ item.title || '-' }}
                 el-col(:xs="4" :sm="2" :lg="1" :title="item.type")
                   | {{ item.type || '-' }}
@@ -103,10 +128,13 @@
                   | {{ item.sync || '-' }}
                 el-col(:xs="24" :sm="12" :lg="14" :title="item.target")
                   | {{ item.target || '-' }}
+              .used-by(v-if="group.used")
+                h5 {{ msgLabelUsedBy }}
+                .used(v-for="g in group.used") {{ g }}
         br
         el-row(v-if="!editingGroup.id")
           el-col
-            el-button(type="primary" icon="el-icon-plus" @click="addGroup") Add Group
+            el-button(type="primary" icon="el-icon-plus" @click="addGroup") {{ msgButtonAddGroup }}
 </template>
 
 <script>
@@ -114,9 +142,11 @@ import { cloneDeep, values, isEqual, every } from 'lodash';
 import { Message, MessageBox } from 'element-ui';
 
 import settings from './settings';
+import isValidUrl from '../urlValidation';
+import { tr, tf, generateComputedMessages, makeOptions } from '../i18n';
+import getManifest from '../manifest';
 
-const VALID_URL = /^(https:)?\/\/(\w+\.)+\w+\/.+?\.(js|css)/i;
-
+const version = getManifest().version;
 let cachedOptions = settings.load();
 
 function solveRefs(dict, id) {
@@ -126,10 +156,16 @@ function solveRefs(dict, id) {
   const used = {};
   group.refs.forEach((ref) => {
     solveRefs(dict, ref);
+    const tarDeps = dict[ref].deps;
     used[ref] = 1;
+    tarDeps[id] = 1;
     const target = dict[ref];
     target.removable = 0;
-    Object.keys(target.refs).forEach((r) => { used[r] = 1; });
+    Object.keys(target.refs).forEach((r) => {
+      used[r] = 1;
+      const td = dict[r].deps;
+      td[id] = 1;
+    });
   });
   delete group.unsolved;
   group.refs = used;
@@ -158,14 +194,33 @@ export default {
   }),
 
   computed: {
+    ...generateComputedMessages([
+      'extension_name',
+      'button_save',
+      'button_discard',
+      'button_add_group',
+      'button_edit',
+      'button_remove',
+      'button_ok',
+      'button_cancel',
+      'button_add_item',
+      'label_title',
+      'label_description',
+      'label_hide',
+      'label_type',
+      'label_wait',
+      'label_target',
+      'label_used_by',
+    ]),
+    msgVersion: () => version,
+
     isEditing() {
       return !!this.editingGroup.id;
     },
 
     isChanged() {
-      const { groups: grps1, cdn_vendors: c1 } = this.options;
-      const { groups: grps2, cdn_vendors: c2 } = cachedOptions;
-      if (!isEqual(c1, c2)) return true;
+      const { groups: grps1 } = this.options;
+      const { groups: grps2 } = cachedOptions;
       if (Object.keys(grps1).length !== Object.keys(grps2).length) return true;
       // console.log(cloneDeep(grps1), grps2);
       return !every(grps1, (g1, i) => groupEqual(g1, grps2[i]));
@@ -180,6 +235,7 @@ export default {
           title,
           unsolved: 1,
           refs: items.map(({ reference }) => reference).filter(ref => ref),
+          deps: {},
           group,
           removable: 1,
         };
@@ -194,18 +250,21 @@ export default {
         const { id, title, description, hide, items } = group;
         const list = items.map(({ title: t, reference = null, url = null, wait = 0 }) => ({
           title: t,
-          type: url ? 'Url' : 'Ref',
+          type: url ? tr('label_url') : tr('label_ref'),
           target: url || this.dict[reference].title,
-          sync: wait ? 'Wait' : 'Async',
+          sync: wait ? tr('label_await') : tr('label_async'),
           wait,
         }));
+        const used = Object.keys(this.dict[id].deps).map(gid => this.dict[gid].title);
+
         return {
           id,
           title,
           description,
-          status: hide ? 'Hide' : 'Show',
+          status: hide ? this.msgLabelHide : tr('label_show'),
           items: list,
           removable: this.dict[id].removable,
+          used: used.length ? used : null,
         };
       });
 
@@ -215,18 +274,7 @@ export default {
       return r;
     },
 
-    typeOptions() {
-      return [
-        {
-          label: 'URL',
-          value: 'url',
-        },
-        {
-          label: 'Reference',
-          value: 'ref',
-        },
-      ];
-    },
+    typeOptions: () => makeOptions(['url', 'ref'], 'option'),
 
     availableReferences() {
       const curId = this.editingGroup.id;
@@ -243,12 +291,9 @@ export default {
       const { title, items } = this.editingGroup;
       if (!title.trim().length || !items.length) return false;
 
-      return every(items, ({ title: t, type, url, reference }) => {
-        if (t.trim().length) {
-          return type === 'url' ? url.match(VALID_URL) : reference;
-        }
-        return type === 'url' && !url.trim().length;
-      });
+      return every(items, ({ title: t, type, url, reference }) =>
+        (type === 'url' ? (t.trim().length && isValidUrl(url)) : reference),
+      );
     },
 
     edittedGroup() {
@@ -257,14 +302,20 @@ export default {
       const { items, original, ...group } = this.editingGroup;
       return {
         ...group,
-        items: items.filter(({ title, type, url }) =>
-          !(!title.trim().length && type === 'url' && !url.trim().length))
+        items: items.filter(({ title, type, url, reference }) =>
+          (type === 'url' ? (title.trim().length && isValidUrl(url)) : reference))
           .map(({ title, wait, type, reference, url }) => {
-            const r = type === 'url' ? { url } : { reference };
+            if (type === 'url') {
+              return {
+                title,
+                url,
+                wait: +wait,
+              };
+            }
             return {
-              title,
+              title: this.dict[reference].title,
+              reference,
               wait: +wait,
-              ...r,
             };
           }),
       };
@@ -364,14 +415,18 @@ export default {
 
     removeGroup(id) {
       const { title } = this.dict[id];
-      MessageBox.confirm(`Group ${title} will be removed`, 'Remove', {
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-        type: 'error',
-      })
+      MessageBox.confirm(
+        tf('confirm_body', { title }),
+        tr('confirm_title'),
+        {
+          confirmButtonText: tr('confirm_button_yes'),
+          cancelButtonText: tr('confirm_button_no'),
+          type: 'error',
+          dangerouslyUseHTMLString: true,
+        })
         .then(() => {
           this.options.groups = this.options.groups.filter(({ id: grpId }) => id !== grpId);
-          Message.info(`Group ${title} has been removed!`);
+          Message.info({ message: tf('alert_message', { title }), dangerouslyUseHTMLString: true });
         })
         .catch(() => {});
     },
@@ -406,8 +461,11 @@ h5
   text-align center
 .text-right
   text-align right
-.el-collapse-item__header i
-  margin-top 15px
 .remove
   margin-top 30px
+.drag-handle
+  float left
+  margin-top 8px
+.used
+  padding-left 15px
 </style>

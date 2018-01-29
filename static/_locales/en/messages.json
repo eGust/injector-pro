@@ -1,7 +1,99 @@
 {
+  "button_inject": {
+    "message": "Inject!"
+  },
+  "label_url": {
+    "message": "URL"
+  },
+  "hint_url_label": {
+    "message": "https link of JS/CSS"
+  },
+  "hint_url_input": {
+    "message": "Custom URL to inject"
+  },
   "extension_name": {
     "message": "Injector Pro"
   },
+
+  "button_save": {
+    "message": "Save"
+  },
+  "button_discard": {
+    "message": "Discard"
+  },
+  "button_add_group": {
+    "message": "Add Group"
+  },
+  "button_edit": {
+    "message": "Edit"
+  },
+  "button_remove": {
+    "message": "Remove"
+  },
+  "button_ok": {
+    "message": "OK"
+  },
+  "button_cancel": {
+    "message": "Cancel"
+  },
+  "button_add_item": {
+    "message": "Add Item"
+  },
+  "label_title": {
+    "message": "Title"
+  },
+  "label_description": {
+    "message": "Description"
+  },
+  "label_hide": {
+    "message": "Hide"
+  },
+  "label_show": {
+    "message": "Show"
+  },
+  "label_type": {
+    "message": "Type"
+  },
+  "label_wait": {
+    "message": "Wait"
+  },
+  "label_target": {
+    "message": "Target"
+  },
+  "label_used_by": {
+    "message": "Used by"
+  },
+  "label_ref": {
+    "message": "Ref"
+  },
+  "label_await": {
+    "message": "Wait"
+  },
+  "label_async": {
+    "message": "Async"
+  },
+  "option_url": {
+    "message": "URL"
+  },
+  "option_ref": {
+    "message": "Reference"
+  },
+  "confirm_title": {
+    "message": "Remove Group"
+  },
+  "confirm_body": {
+    "message": "Group <b>$title</b> will be removed!"
+  },
+  "confirm_button_yes": {
+    "message": "Yes"
+  },
+  "confirm_button_no": {
+    "message": "No"
+  },
+  "alert_message": {
+    "message": "Group <b>$title</b> has been removed!"
+  },
+
   "extension_description": {
     "message": "Inject JS/CSS from CDN"
   }

@@ -1,20 +1,29 @@
 <template lang="pug">
   #app
-    h1 Injector Pro
+    h1
+      | {{ msgExtensionName }}
+      .subtitle v{{ msgVersion }}
+      a.config(href="./options.html" target="_blank")
+        el-button(type="primary" plain icon="el-icon-setting")
     el-menu#main
       el-menu-item(v-for="g in items" :key="g.id" :index="g.id" @click="injectGroup(g)")
         .name {{ g.title }}
         .description {{ g.description }}
     #footer
-      el-input(title="Custom Inject" placeholder="https://" v-model="url")
-        .url(slot="prepend" title="HTTP(S) Link of JS/CSS") URL
-        el-button#injection(slot="append" title="Inject!" :disabled="urlIsEmpty")
+      el-input(:title="msgHintUrlInput" placeholder="https://" v-model="url" spellcheck="false")
+        .url(slot="prepend" :title="msgHintUrlLabel") {{ msgLabelUrl }}
+        el-button#injection(slot="append" :title="msgButtonInject" :disabled="invalidUrl")
           img(src="../assets/injection.png" width="16" @click="injectUrl")
 </template>
 
 <script>
 import inject from './injector';
+import isValidUrl from '../urlValidation';
 import { getExtname, getGroupList } from './settings';
+import { generateComputedMessages } from '../i18n';
+import getManifest from '../manifest';
+
+const VERSION = getManifest().version;
 
 const App = {
   name: 'App',
@@ -23,13 +32,21 @@ const App = {
     items: getGroupList(),
   }),
   computed: {
-    urlIsEmpty() {
-      return !(this.url && this.url.trim().length);
+    invalidUrl() {
+      return !isValidUrl(this.url);
     },
+    msgVersion: () => VERSION,
+    ...generateComputedMessages([
+      'extension_name',
+      'button_inject',
+      'label_url',
+      'hint_url_label',
+      'hint_url_input',
+    ]),
   },
   methods: {
     injectUrl() {
-      if (this.urlIsEmpty) return;
+      if (this.invalidUrl) return;
       const item = {
         ext: getExtname(this.url) || '.js',
         url: this.url,
@@ -65,7 +82,14 @@ body
     margin 0
     line-height 26px
     height 29px
-    text-align center
+    padding-left 20px
+    .subtitle
+      display inline
+      padding-left 8px
+      font-size 10px
+      color #888
+    .config
+      float right
 #main
   height 342px
   overflow-x hidden

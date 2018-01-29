@@ -72,15 +72,5 @@
         }
       ]
     }
-  ],
-  "cdn_vendors": [
-    {
-      "name": "cdnjs",
-      "url": "https://cdnjs.com/",
-      "api": {
-        "base_url": "https://api.cdnjs.com/libraries",
-        "adapter": "cdnjs_adapter"
-      }
-    }
   ]
 }

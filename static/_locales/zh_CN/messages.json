@@ -1,4 +1,96 @@
 {
+  "button_inject": {
+    "message": "注入！"
+  },
+  "label_url": {
+    "message": "链接"
+  },
+  "hint_url_label": {
+    "message": "JS/CSS链接（https）"
+  },
+  "hint_url_input": {
+    "message": "自定义链接注入"
+  },
+
+  "button_save": {
+    "message": "保存"
+  },
+  "button_discard": {
+    "message": "放弃"
+  },
+  "button_add_group": {
+    "message": "新建组"
+  },
+  "button_edit": {
+    "message": "编辑"
+  },
+  "button_remove": {
+    "message": "删除"
+  },
+  "button_ok": {
+    "message": "确定"
+  },
+  "button_cancel": {
+    "message": "取消"
+  },
+  "button_add_item": {
+    "message": "新建项目"
+  },
+  "label_title": {
+    "message": "标题"
+  },
+  "label_description": {
+    "message": "描述"
+  },
+  "label_hide": {
+    "message": "隐藏"
+  },
+  "label_show": {
+    "message": "显示"
+  },
+  "label_type": {
+    "message": "类型"
+  },
+  "label_wait": {
+    "message": "等待"
+  },
+  "label_target": {
+    "message": "对象"
+  },
+  "label_used_by": {
+    "message": "在以下组中使用"
+  },
+  "label_ref": {
+    "message": "引用"
+  },
+  "label_await": {
+    "message": "等待"
+  },
+  "label_async": {
+    "message": "异步"
+  },
+  "option_url": {
+    "message": "链接"
+  },
+  "option_ref": {
+    "message": "引用"
+  },
+  "confirm_title": {
+    "message": "删除组"
+  },
+  "confirm_body": {
+    "message": "确认是否要删除组 <b>$title</b>？"
+  },
+  "confirm_button_yes": {
+    "message": "是"
+  },
+  "confirm_button_no": {
+    "message": "否"
+  },
+  "alert_message": {
+    "message": "已成功删除组 <b>$title</b>！"
+  },
+
   "extension_name": {
     "message": "注入专家"
   },
