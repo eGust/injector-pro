@@ -1,7 +1,7 @@
 {
   "name": "injector-pro",
   "version": "1.0.0",
-  "description": "Web Exetion for injecting JS/CSS",
+  "description": "Web Extension for injecting JS/CSS",
   "author": "James Chen <egustc@gmail.com>",
   "private": true,
   "scripts": {
@@ -47,7 +47,9 @@
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^22.0.4",
+    "jest-localstorage-mock": "^2.2.0",
     "jest-serializer-vue": "^0.3.0",
     "json-loader": "^0.5.7",
     "node-notifier": "^5.1.2",
@@ -69,6 +71,7 @@
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
+    "vue-test-utils": "^1.0.0-beta.11",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
