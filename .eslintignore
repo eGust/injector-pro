@@ -1,5 +1,3 @@
-/build/
-/config/
-/dist/
-/*.js
-/test/unit/coverage/
+!.eslintrc.js
+node_modules/
+build/

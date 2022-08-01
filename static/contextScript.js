@@ -1,6 +1,6 @@
 (() => {
   function elementExists({ element, attributes }) {
-    const attrs = Object.keys(attributes).map(key => `[${key}="${attributes[key]}"]`);
+    const attrs = Object.keys(attributes).map((key) => `[${key}="${attributes[key]}"]`);
     return document.querySelector(`${element}${attrs.join('')}`);
   }
 
